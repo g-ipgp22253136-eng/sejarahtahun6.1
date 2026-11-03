@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-MY">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马来西亚成立历史大冒险 | Kronologi Pembentukan Malaysia</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Fredoka', 'Noto Sans SC', sans-serif;
+            background-color: #f0f9ff;
+        }
+        .btn-bounce {
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+        .btn-bounce:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+        .btn-bounce:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .timeline-line {
+            background: linear-gradient(90deg, #ef4444 0%, #eab308 50%, #3b82f6 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between selection:bg-yellow-300">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-red-600 via-blue-700 to-yellow-400 p-4 text-white shadow-lg">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-white text-blue-800 p-2.5 rounded-2xl shadow-inner text-2xl font-black">
+                    🇲🇾
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold leading-tight">历史小英雄：马来西亚的诞生</h1>
+                    <p class="text-xs md:text-sm text-yellow-200">Kronologi Pembentukan Malaysia (Tahun 6)</p>
+                </div>
+            </div>
+            <!-- Score & Badge Header -->
+            <div class="flex items-center gap-4 bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl border border-white/30">
+                <div class="text-center">
+                    <span class="block text-xs uppercase tracking-wider text-yellow-200 font-bold">目前积分</span>
+                    <span id="score-display" class="text-xl md:text-2xl font-black text-white">0</span>
+                </div>
+                <div class="h-8 w-px bg-white/30"></div>
+                <div class="text-center">
+                    <span class="block text-xs uppercase tracking-wider text-yellow-200 font-bold">获得徽章</span>
+                    <span id="badge-count" class="text-xl md:text-2xl font-black text-yellow-300">0 / 3</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto p-4 w-full flex-grow my-4">
+        
+        <!-- Welcome Screen -->
+        <div id="screen-welcome" class="glass-card rounded-3xl p-6 md:p-10 shadow-xl text-center space-y-6">
+            <div class="inline-block bg-yellow-100 p-4 rounded-full text-yellow-600 text-5xl mb-2 animate-bounce">
+                📜
+            </div>
+            <h2 class="text-3xl font-extrabold text-slate-800">准备好穿越时空了吗？</h2>
+            <p class="text-slate-600 max-w-xl mx-auto text-base md:text-lg">
+                同学们，欢迎来到六年级历史大挑战！在这个游戏中，你将重温国家成立的三个关键时刻，收集历史勋章，成为一名合格的“历史小英雄”！
+            </p>
+
+            <!-- Key Info Quick Card -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left my-6">
+                <div class="bg-red-50 border-2 border-red-200 p-4 rounded-2xl">
+                    <span class="inline-block px-2.5 py-1 bg-red-500 text-white font-bold rounded-lg text-xs mb-2">1957年8月31日</span>
+                    <h3 class="font-bold text-red-900">马来亚独立</h3>
+                    <p class="text-xs text-red-700 mt-1">脱离英国殖民统治，正式宣布独立！</p>
+                </div>
+                <div class="bg-yellow-50 border-2 border-yellow-300 p-4 rounded-2xl">
+                    <span class="inline-block px-2.5 py-1 bg-yellow-500 text-white font-bold rounded-lg text-xs mb-2">1961年5月27日</span>
+                    <h3 class="font-bold text-yellow-900">提出马来西亚概念</h3>
+                    <p class="text-xs text-yellow-700 mt-1">东姑阿都拉曼在新加坡记者午餐会上提出！</p>
+                </div>
+                <div class="bg-blue-50 border-2 border-blue-200 p-4 rounded-2xl">
+                    <span class="inline-block px-2.5 py-1 bg-blue-500 text-white font-bold rounded-lg text-xs mb-2">1963年9月16日</span>
+                    <h3 class="font-bold text-blue-900">马来西亚正式成立</h3>
+                    <p class="text-xs text-blue-700 mt-1">马来亚、砂拉越、沙巴及新加坡共同组成！</p>
+                </div>
+            </div>
+
+            <button onclick="startGame()" class="btn-bounce bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-black text-xl px-10 py-4 rounded-2xl shadow-lg border-b-4 border-green-700">
+                <i class="fa-solid fa-play mr-2"></i> 开始历史大冒险！
+            </button>
+        </div>
+
+        <!-- Mode Selector (Hidden initially) -->
+        <div id="game-dashboard" class="hidden space-y-6">
+
+            <!-- Navigation Tabs -->
+            <div class="flex flex-wrap justify-center gap-3 bg-white p-2 rounded-2xl shadow-sm border border-slate-200">
+                <button onclick="switchTab('timeline')" id="tab-timeline" class="flex-1 min-w-[120px] py-3 px-4 rounded-xl font-bold text-sm transition-all bg-blue-600 text-white shadow-md">
+                    <i class="fa-solid fa-timeline mr-1"></i> 关卡1: 探索时间线
+                </button>
+                <button onclick="switchTab('matching')" id="tab-matching" class="flex-1 min-w-[120px] py-3 px-4 rounded-xl font-bold text-sm transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">
+                    <i class="fa-solid fa-puzzle-piece mr-1"></i> 关卡2: 年份大连线
+                </button>
+                <button onclick="switchTab('quiz')" id="tab-quiz" class="flex-1 min-w-[120px] py-3 px-4 rounded-xl font-bold text-sm transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">
+                    <i class="fa-solid fa-circle-question mr-1"></i> 关卡3: 历史大考验
+                </button>
+            </div>
+
+            <!-- Tab 1: Interactive Timeline -->
+            <div id="content-timeline" class="glass-card rounded-3xl p-6 shadow-xl space-y-6">
+                <div class="text-center">
+                    <h3 class="text-2xl font-bold text-slate-800">🚩 第一关：历史时间线重现</h3>
+                    <p class="text-sm text-slate-500">点击下方的年份按钮，了解历史发生的关键事件！</p>
+                </div>
+
+                <!-- Interactive Timeline Graphic -->
+                <div class="relative my-8 px-4">
+                    <div class="absolute top-1/2 left-0 right-0 h-3 timeline-line -translate-y-1/2 rounded-full z-0"></div>
+                    <div class="relative z-10 flex justify-between items-center max-w-2xl mx-auto">
+                        <!-- Step 1957 -->
+                        <button onclick="showYearInfo(1957)" id="node-1957" class="btn-bounce flex flex-col items-center group">
+                            <div class="w-14 h-14 rounded-full bg-red-500 text-white border-4 border-white shadow-lg flex items-center justify-center text-xl font-black group-hover:scale-110 transition-transform">
+                                57
+                            </div>
+                            <span class="mt-2 font-bold text-sm bg-white px-2 py-1 rounded-md shadow border text-red-600">1957年</span>
+                        </button>
+                        <!-- Step 1961 -->
+                        <button onclick="showYearInfo(1961)" id="node-1961" class="btn-bounce flex flex-col items-center group">
+                            <div class="w-14 h-14 rounded-full bg-amber-500 text-white border-4 border-white shadow-lg flex items-center justify-center text-xl font-black group-hover:scale-110 transition-transform">
+                                61
+                            </div>
+                            <span class="mt-2 font-bold text-sm bg-white px-2 py-1 rounded-md shadow border text-amber-600">1961年</span>
+                        </button>
+                        <!-- Step 1963 -->
+                        <button onclick="showYearInfo(1963)" id="node-1963" class="btn-bounce flex flex-col items-center group">
+                            <div class="w-14 h-14 rounded-full bg-blue-600 text-white border-4 border-white shadow-lg flex items-center justify-center text-xl font-black group-hover:scale-110 transition-transform">
+                                63
+                            </div>
+                            <span class="mt-2 font-bold text-sm bg-white px-2 py-1 rounded-md shadow border text-blue-600">1963年</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Details Display Card -->
+                <div id="year-details-box" class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-6 relative overflow-hidden transition-all min-h-[180px] flex items-center justify-center text-center">
+                    <p class="text-slate-400 italic">👉 请在上方选择一个年份开始探索！</p>
+                </div>
+            </div>
+
+            <!-- Tab 2: Drag & Match Game -->
+            <div id="content-matching" class="hidden glass-card rounded-3xl p-6 shadow-xl space-y-6">
+                <div class="text-center">
+                    <h3 class="text-2xl font-bold text-slate-800">🧩 第二关：年份与事件配对</h3>
+                    <p class="text-sm text-slate-500">把正确的“历史事件”点击配对到对应的“年份”上！</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Target Years -->
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-slate-700 text-center border-b pb-2">📅 目标年份</h4>
+                        <div id="target-1957" onclick="handleMatchTarget('1957')" class="match-target p-4 rounded-2xl border-2 border-dashed border-red-300 bg-red-50/50 min-h-[80px] flex items-center justify-between cursor-pointer hover:border-red-500 transition-colors">
+                            <span class="font-black text-red-600 text-xl">1957年</span>
+                            <div class="matched-content text-sm text-slate-700 font-bold">点击选择事件放置在此</div>
+                        </div>
+                        <div id="target-1961" onclick="handleMatchTarget('1961')" class="match-target p-4 rounded-2xl border-2 border-dashed border-amber-300 bg-amber-50/50 min-h-[80px] flex items-center justify-between cursor-pointer hover:border-amber-500 transition-colors">
+                            <span class="font-black text-amber-600 text-xl">1961年</span>
+                            <div class="matched-content text-sm text-slate-700 font-bold">点击选择事件放置在此</div>
+                        </div>
+                        <div id="target-1963" onclick="handleMatchTarget('1963')" class="match-target p-4 rounded-2xl border-2 border-dashed border-blue-300 bg-blue-50/50 min-h-[80px] flex items-center justify-between cursor-pointer hover:border-blue-500 transition-colors">
+                            <span class="font-black text-blue-600 text-xl">1963年</span>
+                            <div class="matched-content text-sm text-slate-700 font-bold">点击选择事件放置在此</div>
+                        </div>
+                    </div>
+
+                    <!-- Event Options -->
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-slate-700 text-center border-b pb-2">📌 历史事件（点击选中）</h4>
+                        <div id="option-events" class="space-y-3">
+                            <!-- Options will be dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center pt-4">
+                    <button onclick="checkMatchingResults()" class="btn-bounce bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-xl shadow-md">
+                        <i class="fa-solid fa-circle-check mr-2"></i> 提交答案
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab 3: Multiple Choice Quiz -->
+            <div id="content-quiz" class="hidden glass-card rounded-3xl p-6 shadow-xl space-y-6">
+                <div class="text-center">
+                    <h3 class="text-2xl font-bold text-slate-800">⚡ 第三关：历史大考验</h3>
+                    <p class="text-sm text-slate-500">回答问题，测试你对马来西亚成立历史的掌握程度！</p>
+                </div>
+
+                <div id="quiz-container" class="max-w-2xl mx-auto bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <!-- Dynamic Question Area -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Success Modal / Certificate -->
+        <div id="modal-success" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl p-8 max-w-lg w-full text-center space-y-6 shadow-2xl animate-scaleIn relative overflow-hidden">
+                <div class="absolute -top-10 -left-10 w-32 h-32 bg-yellow-300/30 rounded-full blur-2xl"></div>
+                
+                <div class="text-6xl">🏆</div>
+                <h3 class="text-3xl font-black text-slate-800">太棒了！恭喜通关！</h3>
+                <p class="text-slate-600 text-sm">你已经完美掌握了**马来西亚成立的重要历史时间线**！</p>
+                
+                <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl space-y-2 text-left">
+                    <div class="font-bold text-amber-900 border-b border-amber-200 pb-1">📜 你的通关记忆卡：</div>
+                    <ul class="text-xs text-amber-800 space-y-1">
+                        <li>✅ <strong>1957年8月31日：</strong>马来亚联合邦独立</li>
+                        <li>✅ <strong>1961年5月27日：</strong>东姑阿都拉曼提出马来西亚概念</li>
+                        <li>✅ <strong>1963年9月16日：</strong>马来西亚正式成立（马来亚、砂拉越、沙巴、新加坡）</li>
+                    </ul>
+                </div>
+
+                <div class="flex justify-center gap-4">
+                    <button onclick="resetGame()" class="btn-bounce bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-6 py-3 rounded-xl text-sm">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> 再玩一次
+                    </button>
+                    <button onclick="closeModal()" class="btn-bounce bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-3 rounded-xl text-sm">
+                        继续复习 <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs border-t border-slate-700">
+        <p>适合小学六年级 (Tahun 6) 历史课教学辅助 | Kronologi Pembentukan Malaysia</p>
+    </footer>
+
+    <!-- Game JavaScript Logic -->
+    <script>
+        // Global Game State
+        let score = 0;
+        let badgesEarned = new Set();
+        let selectedEventId = null;
+
+        // Data Structure
+        const yearData = {
+            1957: {
+                year: "1957年8月31日",
+                title: "马来亚独立 (Kemerdekaan Persekutuan Tanah Melayu)",
+                details: "马来亚联合邦正式脱离英国殖民统治，在默迪卡体育场（Stadium Merdeka）由国父东姑阿都拉曼高喊7声“MERDEKA”，宣布独立！",
+                tag: "脱离英国殖民统治",
+                bg: "bg-red-50",
+                border: "border-red-300",
+                textColor: "text-red-700"
+            },
+            1961: {
+                year: "1961年5月27日",
+                title: "提出马来西亚概念 (Gagasan Pembentukan Malaysia)",
+                details: "国父东姑阿都拉曼（Tunku Abdul Rahman）在新加坡举行的外国记者协会午餐会上，首次正式提出成立马来西亚的构想与概念。",
+                tag: "东姑阿都拉曼提出概念",
+                bg: "bg-amber-50",
+                border: "border-amber-300",
+                textColor: "text-amber-700"
+            },
+            1963: {
+                year: "1963年9月16日",
+                title: "马来西亚正式成立 (Hari Malaysia)",
+                details: "马来亚联合邦、砂拉越、沙巴及新加坡共同组成马来西亚！这标志着一个新的国家正式诞生。",
+                tag: "四地共同组成马来西亚",
+                bg: "bg-blue-50",
+                border: "border-blue-300",
+                textColor: "text-blue-700"
+            }
+        };
+
+        const matchingEvents = [
+            { id: "e1", text: "东姑阿都拉曼在新加坡外国记者协会午餐会上，提出成立马来西亚的概念。", targetYear: "1961" },
+            { id: "e2", text: "马来亚联合邦正式脱离英国殖民统治，宣布独立。", targetYear: "1957" },
+            { id: "e3", text: "马来亚、砂拉越、沙巴及新加坡共同组成马来西亚。", targetYear: "1963" }
+        ];
+
+        const quizQuestions = [
+            {
+                question: "1. 东姑阿都拉曼是在哪一年提出成立“马来西亚”的概念？",
+                options: ["1957年", "1961年", "1963年", "1965年"],
+                answer: 1,
+                explanation: "1961年5月27日，东姑阿都拉曼在新加坡的外国记者协会午餐会上首次提出了概念。"
+            },
+            {
+                question: "2. 马来西亚正式成立的完整日期是哪一天？",
+                options: ["1957年8月31日", "1961年5月27日", "1963年9月16日", "1963年8月31日"],
+                answer: 2,
+                explanation: "1963年9月16日是马来西亚成立日（Hari Malaysia）。"
+            },
+            {
+                question: "3. 1963年成立马来西亚时，是由哪四个地区共同组成？",
+                options: [
+                    "马来亚、汶莱、砂拉越、沙巴",
+                    "马来亚、砂拉越、沙巴、新加坡",
+                    "马来亚、新加坡、印尼、泰国",
+                    "砂拉越、沙巴、新加坡、菲律宾"
+                ],
+                answer: 1,
+                explanation: "1963年由马来亚、砂拉越、沙巴及新加坡四个地区共同组成。"
+            },
+            {
+                question: "4. 1957年8月31日发生了什么重要历史事件？",
+                options: [
+                    "马来西亚成立",
+                    "东姑阿都拉曼提出马来西亚概念",
+                    "马来亚联合邦脱离英国殖民统治正式独立",
+                    "新加坡脱离马来西亚"
+                ],
+                answer: 2,
+                explanation: "1957年8月31日是马来亚联合邦（Persekutuan Tanah Melayu）独立的宏伟时刻。"
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let matches = { "1957": null, "1961": null, "1963": null };
+
+        // Functions
+        function startGame() {
+            document.getElementById('screen-welcome').classList.add('hidden');
+            document.getElementById('game-dashboard').classList.remove('hidden');
+            initMatchingGame();
+            initQuiz();
+        }
+
+        function switchTab(tabName) {
+            // Update Tab UI
+            ['timeline', 'matching', 'quiz'].forEach(t => {
+                const tabBtn = document.getElementById(`tab-${t}`);
+                const contentBlock = document.getElementById(`content-${t}`);
+                if (t === tabName) {
+                    tabBtn.className = "flex-1 min-w-[120px] py-3 px-4 rounded-xl font-bold text-sm transition-all bg-blue-600 text-white shadow-md";
+                    contentBlock.classList.remove('hidden');
+                } else {
+                    tabBtn.className = "flex-1 min-w-[120px] py-3 px-4 rounded-xl font-bold text-sm transition-all bg-slate-100 text-slate-600 hover:bg-slate-200";
+                    contentBlock.classList.add('hidden');
+                }
+            });
+        }
+
+        // --- Tab 1 Logic ---
+        function showYearInfo(year) {
+            const data = yearData[year];
+            const box = document.getElementById('year-details-box');
+            
+            box.className = `${data.bg} border-2 ${data.border} rounded-2xl p-6 relative overflow-hidden transition-all text-left animate-fadeIn`;
+            box.innerHTML = `
+                <div class="flex items-start justify-between">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-white font-black rounded-full text-xs shadow-sm mb-2 ${data.textColor}">${data.year}</span>
+                        <h4 class="text-xl font-black text-slate-800">${data.title}</h4>
+                    </div>
+                    <div class="text-3xl">✨</div>
+                </div>
+                <p class="mt-3 text-sm md:text-base text-slate-700 leading-relaxed">${data.details}</p>
+                <div class="mt-4 pt-3 border-t border-slate-200/60 flex justify-between items-center text-xs text-slate-500 font-bold">
+                    <span>关键记号：${data.tag}</span>
+                    <span class="text-green-600"><i class="fa-solid fa-circle-check"></i> 已探索</span>
+                </div>
+            `;
+
+            // Award Badge 1 if all years explored
+            if (!badgesEarned.has('b1')) {
+                addScore(20);
+                badgesEarned.add('b1');
+                updateBadgeUI();
+            }
+        }
+
+        // --- Tab 2 Logic (Matching) ---
+        function initMatchingGame() {
+            const container = document.getElementById('option-events');
+            container.innerHTML = '';
+            
+            // Shuffle
+            const shuffled = [...matchingEvents].sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach(item => {
+                const div = document.createElement('div');
+                div.id = `event-card-${item.id}`;
+                div.className = "p-3.5 bg-white border-2 border-slate-200 rounded-xl shadow-sm hover:border-blue-400 cursor-pointer transition-all text-xs md:text-sm font-medium text-slate-700 flex items-center justify-between";
+                div.onclick = () => selectEventOption(item.id);
+                div.innerHTML = `
+                    <span>${item.text}</span>
+                    <i class="fa-solid fa-hand-pointer text-slate-300 ml-2"></i>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function selectEventOption(id) {
+            selectedEventId = id;
+            matchingEvents.forEach(item => {
+                const card = document.getElementById(`event-card-${item.id}`);
+                if (item.id === id) {
+                    card.className = "p-3.5 bg-blue-50 border-2 border-blue-500 rounded-xl shadow-md cursor-pointer transition-all text-xs md:text-sm font-bold text-blue-900 flex items-center justify-between scale-[1.02]";
+                } else {
+                    card.className = "p-3.5 bg-white border-2 border-slate-200 rounded-xl shadow-sm hover:border-blue-400 cursor-pointer transition-all text-xs md:text-sm font-medium text-slate-700 flex items-center justify-between";
+                }
+            });
+        }
+
+        function handleMatchTarget(year) {
+            if (!selectedEventId) {
+                alert("请先在右侧点击选择一个【历史事件】！");
+                return;
+            }
+
+            const eventObj = matchingEvents.find(e => e.id === selectedEventId);
+            matches[year] = eventObj;
+
+            const targetBox = document.getElementById(`target-${year}`);
+            const contentDiv = targetBox.querySelector('.matched-content');
+            contentDiv.innerHTML = `<span class="bg-white px-2 py-1 rounded shadow-sm text-slate-800 text-xs border border-slate-200">${eventObj.text}</span>`;
+            targetBox.classList.add('bg-emerald-50', 'border-emerald-400');
+        }
+
+        function checkMatchingResults() {
+            let correctCount = 0;
+            Object.keys(matches).forEach(year => {
+                if (matches[year] && matches[year].targetYear === year) {
+                    correctCount++;
+                }
+            });
+
+            if (correctCount === 3) {
+                if (!badgesEarned.has('b2')) {
+                    addScore(50);
+                    badgesEarned.add('b2');
+                    updateBadgeUI();
+                }
+                confetti({ particleCount: 80, spread: 60 });
+                alert("🎉 太棒了！连线完全正确！积分+50！");
+            } else {
+                alert(`有些年份配对错误哦！目前答对 ${correctCount}/3 个，再试一次吧！`);
+            }
+        }
+
+        // --- Tab 3 Logic (Quiz) ---
+        function initQuiz() {
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const container = document.getElementById('quiz-container');
+            const q = quizQuestions[currentQuizIndex];
+
+            let optionsHTML = q.options.map((opt, idx) => `
+                <button onclick="checkQuizAnswer(${idx})" class="w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:border-blue-500 hover:bg-blue-50/50 font-bold text-sm text-slate-700 transition-all flex items-center justify-between group">
+                    <span>${opt}</span>
+                    <i class="fa-regular fa-circle text-slate-300 group-hover:text-blue-500"></i>
+                </button>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="flex justify-between items-center text-xs font-bold text-slate-400">
+                    <span>问题 ${currentQuizIndex + 1} / ${quizQuestions.length}</span>
+                    <span>单选题</span>
+                </div>
+                <h4 class="text-lg font-bold text-slate-800">${q.question}</h4>
+                <div class="space-y-3">
+                    ${optionsHTML}
+                </div>
+                <div id="quiz-feedback" class="hidden p-4 rounded-xl text-xs leading-relaxed"></div>
+            `;
+        }
+
+        function checkQuizAnswer(selectedIdx) {
+            const q = quizQuestions[currentQuizIndex];
+            const feedback = document.getElementById('quiz-feedback');
+
+            if (selectedIdx === q.answer) {
+                addScore(20);
+                feedback.className = "p-4 rounded-xl text-xs leading-relaxed bg-green-50 border border-green-200 text-green-800 font-bold block animate-fadeIn";
+                feedback.innerHTML = `✅ 回答正确！${q.explanation}`;
+                confetti({ particleCount: 30, spread: 40 });
+            } else {
+                feedback.className = "p-4 rounded-xl text-xs leading-relaxed bg-red-50 border border-red-200 text-red-800 font-bold block animate-fadeIn";
+                feedback.innerHTML = `❌ 回答错误！正确答案是：${q.options[q.answer]}。<br>${q.explanation}`;
+            }
+
+            setTimeout(() => {
+                if (currentQuizIndex < quizQuestions.length - 1) {
+                    currentQuizIndex++;
+                    renderQuestion();
+                } else {
+                    if (!badgesEarned.has('b3')) {
+                        badgesEarned.add('b3');
+                        updateBadgeUI();
+                    }
+                    showSuccessModal();
+                }
+            }, 2500);
+        }
+
+        // UI Helpers
+        function addScore(pts) {
+            score += pts;
+            document.getElementById('score-display').innerText = score;
+        }
+
+        function updateBadgeUI() {
+            document.getElementById('badge-count').innerText = `${badgesEarned.size} / 3`;
+        }
+
+        function showSuccessModal() {
+            document.getElementById('modal-success').classList.remove('hidden');
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+        }
+
+        function closeModal() {
+            document.getElementById('modal-success').classList.add('hidden');
+        }
+
+        function resetGame() {
+            score = 0;
+            badgesEarned.clear();
+            currentQuizIndex = 0;
+            matches = { "1957": null, "1961": null, "1963": null };
+            document.getElementById('score-display').innerText = "0";
+            updateBadgeUI();
+            closeModal();
+            initMatchingGame();
+            initQuiz();
+            switchTab('timeline');
+        }
+    </script>
+</body>
+</html>
